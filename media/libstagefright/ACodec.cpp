@@ -1106,6 +1106,10 @@ status_t ACodec::setupNativeWindowSizeFormatAndUsage(
         usage |= GRALLOC_USAGE_PROTECTED;
     }
 
+#ifdef MTK_HARDWARE
+    usage |= (GRALLOC_USAGE_SW_WRITE_OFTEN | GRALLOC_USAGE_SW_READ_OFTEN);
+#endif
+
     usage |= kVideoGrallocUsage;
     *finalUsage = usage;
 
