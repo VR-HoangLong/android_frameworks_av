@@ -62,6 +62,10 @@
 #include "include/SharedMemoryBuffer.h"
 #include <media/stagefright/omx/OMXUtils.h>
 
+#ifndef MTK_HARDWARE
+#define MTK_HARDWARE
+#endif
+
 #define USE_LEGACY_RESCALING 1
 
 namespace android {
@@ -3196,7 +3200,12 @@ status_t ACodec::setSupportedOutputFormat(bool getLegacyFlexibleFormat) {
                 || format.eColorFormat == OMX_COLOR_FormatYUV420PackedPlanar
                 || format.eColorFormat == OMX_COLOR_FormatYUV420SemiPlanar
                 || format.eColorFormat == OMX_COLOR_FormatYUV420PackedSemiPlanar
-                || format.eColorFormat == OMX_TI_COLOR_FormatYUV420PackedSemiPlanar) {
+                || format.eColorFormat == OMX_TI_COLOR_FormatYUV420PackedSemiPlanar
+#ifdef MTK_HARDWARE
+                || format.eColorFormat == HAL_PIXEL_FORMAT_YV12
+                || format.eColorFormat == OMX_MTK_COLOR_FormatYV12
+#endif
+                ) {
             break;
         }
         // find best legacy non-standard format
@@ -4846,6 +4855,17 @@ status_t ACodec::getPortFormat(OMX_U32 portIndex, sp<AMessage> &notify) {
                             rect.nWidth = videoDef->nFrameWidth;
                             rect.nHeight = videoDef->nFrameHeight;
                         }
+
+#ifdef MTK_HARDWARE
+						if (!strncmp(mComponentName.c_str(), "OMX.MTK.", 8) && mOMXNode->getConfig(
+								(OMX_INDEXTYPE) 0x7f00001c /* OMX_IndexVendorMtkOmxVdecGetCropInfo */,
+								&rect, sizeof(rect)) != OK) {
+							rect.nLeft = 0;
+							rect.nTop = 0;
+							rect.nWidth = videoDef->nFrameWidth;
+							rect.nHeight = videoDef->nFrameHeight;
+						}
+#endif
 
                         if (rect.nLeft < 0 ||
                             rect.nTop < 0 ||

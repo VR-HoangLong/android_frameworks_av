@@ -99,6 +99,11 @@ public:
     void setPictureFormat(const char *format);
     const char *getPictureFormat() const;
 
+#ifdef MTK_HARDWARE
+    void setCameraPictureFlip(const int format);
+    int getCameraPictureFlip() const;
+#endif
+
     void dump() const;
     status_t dump(int fd, const Vector<String16>& args) const;
 
@@ -162,6 +167,11 @@ public:
     static const char KEY_PICTURE_FORMAT[];
     // Supported image formats for captured pictures.
     // Example value: "jpeg,rgb565". Read only.
+
+#ifdef MTK_HARDWARE
+    static const char SNAPSHOT_PICTURE_FLIP[];//add by xueweifeng
+#endif
+
     static const char KEY_SUPPORTED_PICTURE_FORMATS[];
     // The width (in pixels) of EXIF thumbnail in Jpeg picture.
     // Example value: "512". Read/write.
@@ -537,6 +547,9 @@ public:
     // Supported modes for special effects with light.
     // Example values: "lowlight,hdr".
     static const char KEY_LIGHTFX[];
+#ifdef MTK_HARDWARE
+    static const char KEY_SNAPSHOT_PICTURE_FLIP[];
+#endif
 
     // Value for KEY_ZOOM_SUPPORTED or KEY_SMOOTH_ZOOM_SUPPORTED.
     static const char TRUE[];
@@ -586,6 +599,8 @@ public:
     // Constant emission of light during preview, auto-focus and snapshot.
     // This can also be used for video recording.
     static const char FLASH_MODE_TORCH[];
+    static const char FLASH_MODE_TORCH1[];
+    static const char FLASH_MODE_TORCH2[];
 
     // Values for scene mode settings.
     static const char SCENE_MODE_AUTO[];
@@ -682,6 +697,9 @@ public:
     static const char LIGHTFX_LOWLIGHT[];
     // High-dynamic range mode
     static const char LIGHTFX_HDR[];
+
+    static const char KEY_VIDEO_HDR_MODE[];
+    static const char KEY_VIDEO_HDR_MODES[];
 
     /**
      * Returns the the supported preview formats as an enum given in graphics.h

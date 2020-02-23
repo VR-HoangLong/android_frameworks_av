@@ -77,6 +77,9 @@ cc_library_shared {
         "-Wall",
         "-Wno-unused-parameter",
         "-Wno-documentation",
+        "-DMTK_HARDWARE",
+        "-DUSE_LEGACY_MTK_AV_BLOB",
+        "-DHAS_LEGACY_CAMERA_HAL1",
     ],
 
     product_variables: {
@@ -125,6 +128,21 @@ cc_library_shared {
     export_shared_lib_headers: [
         "libmedia_omx",
     ],
+
+    cflags: [
+        "-DMTK_HARDWARE",
+        "-DUSE_LEGACY_MTK_AV_BLOB",
+        "-DHAS_LEGACY_CAMERA_HAL1",
+    ],
+
+    product_variables: {
+        lineage: {
+            needs_legacy_camera_hal1_dyn_native_handle: {
+                cppflags: ["-DNEEDS_LEGACY_CAMERA_HAL1_DYN_NATIVE_HANDLE"],
+            },
+        },
+    },
+
     sanitize: {
         misc_undefined: [
             "signed-integer-overflow",

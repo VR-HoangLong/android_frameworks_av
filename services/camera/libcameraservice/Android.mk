@@ -95,7 +95,7 @@ LOCAL_C_INCLUDES += \
 LOCAL_EXPORT_C_INCLUDE_DIRS := \
     frameworks/av/services/camera/libcameraservice
 
-LOCAL_CFLAGS += -Wall -Wextra -Werror
+LOCAL_CFLAGS += -Wall -Wextra -Wno-narrowing -DMTK_HARDWARE
 
 # Workaround for invalid unused-lambda-capture warning http://b/38349491
 LOCAL_CLANG_CFLAGS += -Wno-error=unused-lambda-capture

@@ -213,7 +213,8 @@ bool DescribeDefaultColorFormat(DescribeColorFormat2Params &params) {
         fmt != OMX_COLOR_FormatYUV420PackedPlanar &&
         fmt != OMX_COLOR_FormatYUV420SemiPlanar &&
         fmt != OMX_COLOR_FormatYUV420PackedSemiPlanar &&
-        fmt != (OMX_COLOR_FORMATTYPE)HAL_PIXEL_FORMAT_YV12) {
+        fmt != (OMX_COLOR_FORMATTYPE)HAL_PIXEL_FORMAT_YV12 &&
+        fmt != OMX_MTK_COLOR_FormatYV12) {
         ALOGW("do not know color format 0x%x = %d", fmt, fmt);
         return false;
     }
@@ -247,6 +248,7 @@ bool DescribeDefaultColorFormat(DescribeColorFormat2Params &params) {
     image.mPlane[image.Y].mVertSubsampling = 1;
 
     switch ((int)fmt) {
+		case OMX_MTK_COLOR_FormatYV12:
         case HAL_PIXEL_FORMAT_YV12:
             if (params.bUsingNativeBuffers) {
                 size_t ystride = align(params.nStride, 16);

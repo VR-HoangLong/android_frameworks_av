@@ -91,6 +91,12 @@ private:
 
     ColorConverter(const ColorConverter &);
     ColorConverter &operator=(const ColorConverter &);
+#ifdef MTK_HARDWARE
+    status_t convertYUVToRGBHW(
+	const BitmapParams &src, const BitmapParams &dst);
+    void dumpColorConverterData(const char * filepath,
+	const void * buffer, size_t size, const char * propty);
+#endif
 };
 
 }  // namespace android

@@ -23,6 +23,7 @@ cc_library {
         "-Werror",
         "-Wno-error=deprecated-declarations",
         "-Wall",
+        "-DMTK_HARDWARE",
     ],
     shared_libs: ["libutils", "liblog", "libgui"],
     header_libs: [
@@ -107,6 +108,8 @@ cc_defaults {
         "-Werror",
         "-Wno-error=deprecated-declarations",
         "-Wall",
+        "-DMTK_HARDWARE",
+        "-DUSE_LEGACY_MTK_AV_BLOB",
     ],
 
     sanitize: {
@@ -174,6 +177,10 @@ cc_library_shared {
         "StringArray.cpp",
     ],
 
+    include_dirs: [
+        "frameworks/rs/cpp/util",
+    ],
+
     shared_libs: [
         "libui",
         "liblog",
@@ -226,6 +233,8 @@ cc_library_shared {
         "-Werror",
         "-Wno-error=deprecated-declarations",
         "-Wall",
+        "-DMTK_HARDWARE",
+        "-DUSE_LEGACY_MTK_AV_BLOB",
     ],
 
     sanitize: {

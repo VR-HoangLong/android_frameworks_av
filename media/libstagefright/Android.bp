@@ -108,6 +108,7 @@ cc_library_shared {
         "android.hardware.cas@1.0",
         "android.hardware.cas.native@1.0",
         "android.hardware.media.omx@1.0",
+        "libdpframework"
     ],
 
     static_libs: [
@@ -132,6 +133,7 @@ cc_library_shared {
 
     export_include_dirs: [
         "include",
+        "colorconversion/inc",
     ],
 
     cflags: [
@@ -139,12 +141,17 @@ cc_library_shared {
         "-Werror",
         "-Wno-error=deprecated-declarations",
         "-Wall",
+        "-DMTK_HARDWARE",
     ],
 
     product_variables: {
         debuggable: {
             // enable experiments only in userdebug and eng builds
-            cflags: ["-DENABLE_STAGEFRIGHT_EXPERIMENTS"],
+            cflags: [
+                "-DENABLE_STAGEFRIGHT_EXPERIMENTS",
+                "-DMTK_HARDWARE",
+                "-DUSE_LEGACY_MTK_AV_BLOB",
+            ],
         },
     },
 

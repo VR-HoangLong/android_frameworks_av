@@ -71,6 +71,8 @@ cc_library_shared {
         "CameraBase.cpp",
         "CameraUtils.cpp",
         "VendorTagDescriptor.cpp",
+        "MtkCamera.cpp",
+        "MtkCameraParameters.cpp",
     ],
 
     product_variables: {
@@ -108,6 +110,8 @@ cc_library_shared {
         "-Werror",
         "-Wall",
         "-Wextra",
+        "-Wno-format",
+        "-DMTK_HARDWARE",
     ],
 
 }

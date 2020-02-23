@@ -37,6 +37,7 @@ cc_library_shared {
         "-Wno-multichar",
         "-Werror",
         "-Wall",
+        "-DMTK_HARDWARE",
     ],
 
     shared_libs: [
