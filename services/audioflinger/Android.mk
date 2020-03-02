@@ -76,6 +76,10 @@ LOCAL_SRC_FILES += \
     FastThreadDumpState.cpp  \
     FastThreadState.cpp
 
+ifeq ($(BOARD_USES_LEGACY_MTK_AV_BLOB), true)
+LOCAL_CFLAGS += -DLEGACY_MTK_AV_BLOB
+endif
+
 LOCAL_CFLAGS += -DSTATE_QUEUE_INSTANTIATIONS='"StateQueueInstantiations.cpp"'
 
 LOCAL_CFLAGS += -fvisibility=hidden
