@@ -352,7 +352,9 @@ OMXNodeInstance::OMXNodeInstance(
       mSailed(false),
       mQueriedProhibitedExtensions(false),
       mQuirks(0),
+#ifndef USE_LEGACY_MTK_AV_BLOB
       mBufferIDCount(0),
+#endif
       mRestorePtsFailed(false),
       mMaxTimestampGapUs(-1ll),
       mPrevOriginalTimeUs(-1ll),
@@ -2379,6 +2381,7 @@ void OMXNodeInstance::freeActiveBuffers() {
     }
 }
 
+#ifndef USE_LEGACY_MTK_AV_BLOB
 IOMX::buffer_id OMXNodeInstance::makeBufferID(OMX_BUFFERHEADERTYPE *bufferHeader) {
     if (bufferHeader == NULL) {
         return 0;
@@ -2444,5 +2447,27 @@ void OMXNodeInstance::invalidateBufferID(IOMX::buffer_id buffer) {
     mBufferHeaderToBufferID.removeItem(mBufferIDToBufferHeader.valueAt(index));
     mBufferIDToBufferHeader.removeItemsAt(index);
 }
+#else
+IOMX::buffer_id OMXNodeInstance::makeBufferID(OMX_BUFFERHEADERTYPE *bufferHeader) {
+    return (IOMX::buffer_id)(size_t)bufferHeader;
+}
+
+OMX_BUFFERHEADERTYPE *OMXNodeInstance::findBufferHeader(
+        IOMX::buffer_id buffer, OMX_U32 portIndex __unused) {
+    return findBufferHeader(buffer);
+}
+
+
+OMX_BUFFERHEADERTYPE *OMXNodeInstance::findBufferHeader(IOMX::buffer_id buffer) {
+    return (OMX_BUFFERHEADERTYPE *)(size_t)buffer;
+}
+
+IOMX::buffer_id OMXNodeInstance::findBufferID(OMX_BUFFERHEADERTYPE *bufferHeader) {
+    return (IOMX::buffer_id)(size_t)bufferHeader;
+}
+
+void OMXNodeInstance::invalidateBufferID(IOMX::buffer_id buffer __unused) {
+}
+#endif
 
 }  // namespace android
